@@ -141,3 +141,198 @@ $(document).on("click","a",function(e){
         }, 800);
     });
 // test code
+
+
+(function($) {
+
+  /**
+   * Copyright 2012, Digital Fusion
+   * Licensed under the MIT license.
+   * http://teamdf.com/jquery-plugins/license/
+   *
+   * @author Sam Sehnert
+   * @desc A small plugin that checks whether elements are within
+   *     the user visible viewport of a web browser.
+   *     only accounts for vertical position, not horizontal.
+   */
+
+  $.fn.visible = function(partial) {
+    
+      var $t            = $(this),
+          $w            = $(window),
+          viewTop       = $w.scrollTop(),
+          viewBottom    = viewTop + $w.height(),
+          _top          = $t.offset().top,
+          _bottom       = _top + $t.height(),
+          compareTop    = partial === true ? _bottom : _top,
+          compareBottom = partial === true ? _top : _bottom;
+    
+    return ((compareBottom <= viewBottom) && (compareTop >= viewTop));
+
+  };
+    
+})(jQuery);
+
+$(window).scroll(function(event) {
+  
+  $(".content").each(function(i, el) {
+    var el = $(el);
+    if (el.visible(true)) {
+      el.addClass("come-in"); 
+    } 
+  });
+  
+});
+
+var win = $(window);
+var allMods = $(".content");
+
+// Already visible modules
+allMods.each(function(i, el) {
+  var el = $(el);
+  if (el.visible(true)) {
+    el.addClass("already-visible"); 
+  } 
+});
+
+win.scroll(function(event) {
+  
+  allMods.each(function(i, el) {
+    var el = $(el);
+    if (el.visible(true)) {
+      el.addClass("come-in"); 
+    } 
+  });
+  
+});
+
+
+
+
+
+
+
+
+// $(document).ready(function() {
+  
+//   var $slider = $(".slider"),
+//       $slideBGs = $(".slide__bg"),
+//       diff = 0,
+//       curSlide = 0,
+//       numOfSlides = $(".slide").length-1,
+//       animating = false,
+//       animTime = 500,
+//       autoSlideTimeout,
+//       autoSlideDelay = 2600,
+//       $pagination = $(".slider-pagi");
+  
+//   function createBullets() {
+//     for (var i = 0; i < numOfSlides+1; i++) {
+//       var $li = $("<li class='slider-pagi__elem'></li>");
+//       $li.addClass("slider-pagi__elem-"+i).data("page", i);
+//       if (!i) $li.addClass("active");
+//       $pagination.append($li);
+//     }
+//   };
+  
+//   createBullets();
+  
+//   function manageControls() {
+//     $(".slider-control").removeClass("inactive");
+//     if (!curSlide) $(".slider-control.left").addClass("inactive");
+//     if (curSlide === numOfSlides) $(".slider-control.right").addClass("inactive");
+//   };
+  
+//   function autoSlide() {
+//     autoSlideTimeout = setTimeout(function() {
+//       curSlide++;
+//       if (curSlide > numOfSlides) curSlide = 0;
+//       changeSlides();
+//     }, autoSlideDelay);
+//   };
+  
+//   autoSlide();
+  
+//   function changeSlides(instant) {
+//     if (!instant) {
+//       animating = true;
+//       manageControls();
+//       $slider.addClass("animating");
+//       $slider.css("top");
+//       $(".slide").removeClass("active");
+//       $(".slide-"+curSlide).addClass("active");
+//       setTimeout(function() {
+//         $slider.removeClass("animating");
+//         animating = false;
+//       }, animTime);
+//     }
+//     window.clearTimeout(autoSlideTimeout);
+//     $(".slider-pagi__elem").removeClass("active");
+//     $(".slider-pagi__elem-"+curSlide).addClass("active");
+//     $slider.css("transform", "translate3d("+ -curSlide*100 +"%,0,0)");
+//     $slideBGs.css("transform", "translate3d("+ curSlide*50 +"%,0,0)");
+//     diff = 0;
+//     autoSlide();
+//   }
+
+//   function navigateLeft() {
+//     if (animating) return;
+//     if (curSlide > 0) curSlide--;
+//     changeSlides();
+//   }
+
+//   function navigateRight() {
+//     if (animating) return;
+//     if (curSlide < numOfSlides) curSlide++;
+//     changeSlides();
+//   }
+
+//   $(document).on("mousedown touchstart", ".slider", function(e) {
+//     if (animating) return;
+//     window.clearTimeout(autoSlideTimeout);
+//     var startX = e.pageX || e.originalEvent.touches[0].pageX,
+//         winW = $(window).width();
+//     diff = 0;
+    
+//     $(document).on("mousemove touchmove", function(e) {
+//       var x = e.pageX || e.originalEvent.touches[0].pageX;
+//       diff = (startX - x) / winW * 70;
+//       if ((!curSlide && diff < 0) || (curSlide === numOfSlides && diff > 0)) diff /= 2;
+//       $slider.css("transform", "translate3d("+ (-curSlide*100 - diff) +"%,0,0)");
+//       $slideBGs.css("transform", "translate3d("+ (curSlide*50 + diff/2) +"%,0,0)");
+//     });
+//   });
+  
+//   $(document).on("mouseup touchend", function(e) {
+//     $(document).off("mousemove touchmove");
+//     if (animating) return;
+//     if (!diff) {
+//       changeSlides(true);
+//       return;
+//     }
+//     if (diff > -8 && diff < 8) {
+//       changeSlides();
+//       return;
+//     }
+//     if (diff <= -8) {
+//       navigateLeft();
+//     }
+//     if (diff >= 8) {
+//       navigateRight();
+//     }
+//   });
+  
+//   $(document).on("click", ".slider-control", function() {
+//     if ($(this).hasClass("left")) {
+//       navigateLeft();
+//     } else {
+//       navigateRight();
+//     }
+//   });
+  
+//   $(document).on("click", ".slider-pagi__elem", function() {
+//     curSlide = $(this).data("page");
+//     changeSlides();
+//   });
+  
+// });
